@@ -15,11 +15,11 @@ const DataSchema = mongoose.Schema({
         default: Date.now
     },
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     customerId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     product: {

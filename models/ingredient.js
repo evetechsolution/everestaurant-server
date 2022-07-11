@@ -10,7 +10,7 @@ const DataSchema = mongoose.Schema({
         required: true
     },
     umeaId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     stock: {
