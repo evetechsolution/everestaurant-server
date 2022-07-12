@@ -4,8 +4,9 @@ const PaymentSchema = mongoose.Schema({
     name: {
         type: String
     },
-    cardNumber: {
-        type: Number
+    card_number: {
+        type: Number,
+        default: null
     },
 });
 
@@ -14,11 +15,11 @@ const DataSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    userId: {
+    user_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    customerId: {
+    customer_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
