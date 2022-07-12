@@ -3,6 +3,7 @@ const router = express.Router();
 const Measure = require('../models/measurement');
 
 // GETTING ALL THE DATA
+// GET http://localhost:5000/api/measurements/
 router.get('/', async (req, res) => {
     try {
         const listofData = await Measure.find();
@@ -13,6 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE NEW DATA
+// POST http://localhost:5000/api/measurements/create
 router.post('/create', async (req, res) => {
     try {
         const data = new Measure(req.body);
@@ -24,6 +26,7 @@ router.post('/create', async (req, res) => {
 });
 
 // GET A SPECIFIC DATA
+// GET http://localhost:5000/api/measurements/:id
 router.get('/:id', async (req, res) => {
     try {
         const spesificData = await Measure.findById(req.params.id);
@@ -34,6 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA
+// PATCH http://localhost:5000/api/measurements/:id
 router.patch('/:id', async (req, res) => {
     try {
         const updatedData = await Measure.updateOne(
@@ -49,6 +53,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // DELETE A SPECIFIC DATA
+// DELETE http://localhost:5000/api/measurements/:id
 router.delete('/:id', async (req, res) => {
     try {
         const deletedData = await Measure.remove({ _id: req.params.id });

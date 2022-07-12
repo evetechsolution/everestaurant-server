@@ -16,8 +16,8 @@ const DataSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    categoryId: {
-        type: mongoose.Schema.Types.ObjectId
+    category: {
+        type: String
     },
     description: {
         type: String,

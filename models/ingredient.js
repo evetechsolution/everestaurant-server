@@ -9,8 +9,8 @@ const DataSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    umeaId: {
-        type: mongoose.Schema.Types.ObjectId,
+    measure: {
+        type: String,
         required: true
     },
     stock: {
