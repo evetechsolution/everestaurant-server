@@ -6,7 +6,7 @@ const Product = require('../models/product');
 // GET http://localhost:5000/api/products/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Product.find();
+        const listofData = await Product.find().sort({"name": 1});
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });

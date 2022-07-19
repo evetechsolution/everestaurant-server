@@ -20,16 +20,19 @@ const DataSchema = mongoose.Schema({
         type: String
     },
     description: {
-        type: String,
+        type: String
+    },
+    stock: {
+        type: Number
     },
     ingredient: {
-        type: Array,
+        type: Array
     },
     variant: {
-        type: Array,
+        type: Array
     },
     addOns: {
-        type: Array,
+        type: Array
     },
 });
 

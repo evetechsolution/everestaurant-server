@@ -9,6 +9,10 @@ const DataSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    listNumber: {
+        type: Number,
+        required: true
     }
 })
 

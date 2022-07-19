@@ -5,23 +5,23 @@ const DataSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    name: {
+    username: {
         type: String,
         required: true
     },
-    measure: {
+    fullname: {
+        type: String
+    },
+    password: {
         type: String,
         required: true
     },
-    stock: {
-        type: Number,
+    role: {
+        type: String,
         required: true
     },
-    stockMinimum: {
-        type: Number,
-        required: true
-    }
-})
+    
+});
 
-//'Ingredients' is the table thats gonna show up in Mongo DB
-module.exports = mongoose.model('Ingredients', DataSchema);
+//'Users' is the table thats gonna show up in Mongo DB
+module.exports = mongoose.model('Users', DataSchema);

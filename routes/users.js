@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('../models/customer');
+const User = require('../models/user');
 
 // GETTING ALL THE DATA
-// GET http://localhost:5000/api/customers/
+// GET http://localhost:5000/api/users/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Customer.find();
+        const listofData = await User.find().sort({"name": 1});
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
@@ -14,10 +14,10 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE NEW DATA
-// POST http://localhost:5000/api/customers/create
+// POST http://localhost:5000/api/create/
 router.post('/create', async (req, res) => {
     try {
-        const data = new Customer(req.body);
+        const data = new User(req.body);
         const newData = await data.save();
         res.json(newData);
     } catch (err) {
@@ -26,10 +26,10 @@ router.post('/create', async (req, res) => {
 });
 
 // GET A SPECIFIC DATA
-// GET http://localhost:5000/api/customers/:id
+// GET http://localhost:5000/api/users/:id
 router.get('/:id', async (req, res) => {
     try {
-        const spesificData = await Customer.findById(req.params.id);
+        const spesificData = await User.findById(req.params.id);
         res.json(spesificData);
     } catch (err) {
         res.json({ message: err });
@@ -37,10 +37,10 @@ router.get('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA
-// PATCH http://localhost:5000/api/customers/:id
+// PATCH http://localhost:5000/api/users/:id
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedData = await Customer.updateOne(
+        const updatedData = await User.updateOne(
             { _id: req.params.id },
             {
                 $set: req.body
@@ -53,10 +53,10 @@ router.patch('/:id', async (req, res) => {
 });
 
 // DELETE A SPECIFIC DATA
-// DELETE http://localhost:5000/api/customers/:id
+// DELETE http://localhost:5000/api/users/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Customer.remove({ _id: req.params.id });
+        const deletedData = await User.remove({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

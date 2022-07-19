@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Ingredient = require('../models/ingredient');
+const Product = require('../models/product');
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/ingredients/
@@ -20,6 +21,33 @@ router.post('/create', async (req, res) => {
         const data = new Ingredient(req.body);
         const newData = await data.save();
         res.json(newData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
+router.post('/stock-update', async (req, res) => {
+    try {
+        const data = req.body.product;
+        data.map(async (product) => {
+            const selectedProduct = await Product.findById(product.id); // get product by id
+            if (selectedProduct.ingredient && selectedProduct.ingredient.length > 0) {
+                selectedProduct.ingredient.map(async (ingredient) => { // mapping ingredient
+                    const selectedIngredient = await Ingredient.findById(ingredient.id); // get ingredient by id
+                    if (selectedIngredient && selectedIngredient.stock > 0) {
+                        const updatedIngredient = await Ingredient.updateOne(
+                            { _id: ingredient.id },
+                            {
+                                $set: {
+                                    stock: selectedIngredient.stock - (ingredient.qty * product.qty)
+                                }
+                            }
+                        );
+                    }
+                })
+            }
+        })
+        res.json(data);
     } catch (err) {
         res.json({ message: err });
     }

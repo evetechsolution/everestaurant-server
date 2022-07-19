@@ -1,12 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const Activity = require('../models/activity');
+const Order = require('../models/order');
 
 // GETTING ALL THE DATA
-// GET http://localhost:5000/api/activities/
+// GET http://localhost:5000/api/orders/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Activity.find();
+        const listofData = await Order.find();
+        res.json(listofData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
+router.get('/saved-bill', async (req, res) => {
+    try {
+        const listofData = await Order.find().where('status').equals('pending');
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
@@ -15,7 +24,7 @@ router.get('/', async (req, res) => {
 
 // router.get('/all', async (req, res) => {
 //     try {
-//         Activity.aggregate([
+//         Order.aggregate([
 //             {
 //                 $lookup: {
 //                     from: "customers",
@@ -48,10 +57,10 @@ router.get('/', async (req, res) => {
 // });
 
 // CREATE NEW DATA
-// POST http://localhost:5000/api/activities/create
+// POST http://localhost:5000/api/orders/create
 router.post('/create', async (req, res) => {
     try {
-        const data = new Activity(req.body);
+        const data = new Order(req.body);
         const newData = await data.save();
         res.json(newData);
     } catch (err) {
@@ -60,10 +69,10 @@ router.post('/create', async (req, res) => {
 });
 
 // GET A SPECIFIC DATA
-// GET http://localhost:5000/api/activities/:id
+// GET http://localhost:5000/api/orders/:id
 router.get('/:id', async (req, res) => {
     try {
-        const spesificData = await Activity.findById(req.params.id);
+        const spesificData = await Order.findById(req.params.id);
         res.json(spesificData);
     } catch (err) {
         res.json({ message: err });
@@ -71,10 +80,10 @@ router.get('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA
-// PATCH http://localhost:5000/api/activities/:id
+// PATCH http://localhost:5000/api/orders/:id
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedData = await Activity.updateOne(
+        const updatedData = await Order.updateOne(
             { _id: req.params.id },
             {
                 $set: req.body
@@ -87,10 +96,10 @@ router.patch('/:id', async (req, res) => {
 });
 
 // DELETE A SPECIFIC DATA
-// DELETE http://localhost:5000/api/activities/:id
+// DELETE http://localhost:5000/api/orders/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Activity.remove({ _id: req.params.id });
+        const deletedData = await Order.remove({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

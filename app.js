@@ -14,10 +14,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //ROUTES
-app.use('/api/activities', require('./routes/activities'));
-app.use('/api/categories', require('./routes/categories'));
-app.use('/api/customers', require('./routes/customers'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/orders', require('./routes/orders'));
 app.use('/api/products', require('./routes/products'));
+app.use('/api/categories', require('./routes/categories'));
 app.use('/api/ingredients', require('./routes/ingredients'));
 app.use('/api/measurements', require('./routes/measurements'));
 
