@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE NEW DATA
-// POST http://localhost:5000/api/create/
+// POST http://localhost:5000/api/products/create/
 router.post('/create', async (req, res) => {
     try {
         const data = new Product(req.body);

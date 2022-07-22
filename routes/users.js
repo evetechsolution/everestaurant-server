@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/users/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await User.find().sort({"name": 1});
+        const listofData = await User.find().sort({ "name": 1 });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
@@ -14,10 +15,23 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE NEW DATA
-// POST http://localhost:5000/api/create/
+// POST http://localhost:5000/api/users/create/
 router.post('/create', async (req, res) => {
     try {
-        const data = new User(req.body);
+        // Chek username
+        const usernameExist = await User.findOne({ username: req.body.username });
+        if (usernameExist) return res.json({ status: 400, message: 'Username already exist' });
+
+        // Hash password
+        const salt = await bcrypt.genSaltSync(10);
+        const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
+
+        const data = new User({
+            username: req.body.username,
+            fullname: req.body.fullname,
+            password: hashedPassword,
+            role: req.body.role,
+        });
         const newData = await data.save();
         res.json(newData);
     } catch (err) {
@@ -40,6 +54,11 @@ router.get('/:id', async (req, res) => {
 // PATCH http://localhost:5000/api/users/:id
 router.patch('/:id', async (req, res) => {
     try {
+        // check username
+        const spesificData = await User.findById(req.params.id);
+        const usernameExist = await User.findOne({ username: req.body.username });
+        if (req.body.username !== spesificData.username && usernameExist) return res.json({ status: 400, message: 'Username already exist' });
+        
         const updatedData = await User.updateOne(
             { _id: req.params.id },
             {
