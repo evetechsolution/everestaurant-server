@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/open-key', async (req, res) => {
+router.get('/open-key/:id', async (req, res) => {
     try {
-        const listofData = await Qrdata.find({ $or: [{ status: "Open" }, { status: "open" }] });
+        const listofData = await Qrdata.find({ qrKey: req.params.id, $or: [{ status: "Open" }, { status: "open" }] });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });

@@ -13,7 +13,10 @@ const DataSchema = mongoose.Schema({
     listNumber: {
         type: Number,
         required: true
-    }
+    },
+    image: {
+        type: String
+    },
 })
 
 
