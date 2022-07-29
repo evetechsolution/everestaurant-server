@@ -14,6 +14,15 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/open-key', async (req, res) => {
+    try {
+        const listofData = await Qrdata.find({ $or: [{ status: "Open" }, { status: "open" }] });
+        res.json(listofData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
 // CREATE NEW DATA
 // POST http://localhost:5000/api/qrdata/create
 router.post('/create', async (req, res) => {
