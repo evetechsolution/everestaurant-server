@@ -56,6 +56,36 @@ router.get('/saved-bill', async (req, res) => {
 //     }
 // });
 
+// router.get('/yearly-sales', async (req, res) => {
+//     try {
+//         Order.aggregate([
+//             {
+//                 $group: {
+//                     _id: { $year: "$date" },
+//                     revenue: { $sum: "$billedAmount" },
+//                     sales: { $count: {} },
+//                 }
+//             },
+//             {
+//                 $project: {
+//                     _id: 1,
+//                     revenue: 1,
+//                     sales: 1,
+//                 }
+//             }
+//         ]).exec((err, result) => {
+//             if (err) {
+//                 res.send(err);
+//             }
+//             if (result) {
+//                 res.send(result);
+//             }
+//         })
+//     } catch (err) {
+//         res.json({ message: err });
+//     }
+// });
+
 // CREATE NEW DATA
 // POST http://localhost:5000/api/orders/create
 router.post('/create', async (req, res) => {

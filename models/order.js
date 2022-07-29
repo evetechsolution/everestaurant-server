@@ -9,8 +9,16 @@ const DataSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    qrKey: {
+        type: String,
+        required: true
+    },
     tableName: {
         type: String,
+        required: true
+    },
+    pax: {
+        type: Number,
         required: true
     },
     orders: {
@@ -18,8 +26,7 @@ const DataSchema = mongoose.Schema({
         required: true
     },
     orderType: {
-        type: String,
-        required: true
+        type: String
     },
     status: {
         type: String
