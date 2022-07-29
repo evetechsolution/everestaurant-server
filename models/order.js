@@ -7,19 +7,15 @@ const DataSchema = mongoose.Schema({
     },
     staff: {
         type: String,
-        required: true
     },
     qrKey: {
-        type: String,
-        required: true
+        type: String
     },
     tableName: {
-        type: String,
-        required: true
+        type: String
     },
     pax: {
-        type: Number,
-        required: true
+        type: Number
     },
     orders: {
         type: Array,
