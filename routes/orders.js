@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/order');
+const notifOrder = require('./pusherOrder');
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/orders/
@@ -88,7 +89,7 @@ router.get('/saved-bill', async (req, res) => {
 
 // CREATE NEW DATA
 // POST http://localhost:5000/api/orders/create
-router.post('/create', async (req, res) => {
+router.post('/create', notifOrder, async (req, res) => {
     try {
         const data = new Order(req.body);
         const newData = await data.save();
