@@ -86,12 +86,12 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
             // Chek product image & delete image
             const productExist = await Product.findById(req.params.id);
             if (productExist.image) {
-                const { pathname } = new URL(productExist.image);
-                if (pathname) {
+                try {
+                    const { pathname } = new URL(productExist.image);
                     if (fs.existsSync('./public' + pathname)) {
                         fs.unlinkSync('./public' + pathname);
                     }
-                } else {
+                } catch (error) {
                     if (fs.existsSync(productExist.image)) {
                         fs.unlinkSync('./public' + pathname);
                     }
@@ -124,12 +124,12 @@ router.delete('/:id', async (req, res) => {
         // Chek product image & delete image
         const productExist = await Product.findById(req.params.id);
         if (productExist.image) {
-            const { pathname } = new URL(productExist.image);
-            if (pathname) {
+            try {
+                const { pathname } = new URL(productExist.image);
                 if (fs.existsSync('./public' + pathname)) {
                     fs.unlinkSync('./public' + pathname);
                 }
-            } else {
+            } catch (error) {
                 if (fs.existsSync(productExist.image)) {
                     fs.unlinkSync('./public' + pathname);
                 }
