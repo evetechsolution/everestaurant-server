@@ -78,7 +78,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/qrdata/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Qrdata.remove({ _id: req.params.id });
+        const deletedData = await Qrdata.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

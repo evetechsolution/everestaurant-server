@@ -56,7 +56,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/categories/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Category.remove({ _id: req.params.id });
+        const deletedData = await Category.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

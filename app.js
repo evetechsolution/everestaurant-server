@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 require('dotenv/config');
 
 
@@ -12,6 +13,7 @@ const app = express();
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 //ROUTES
 app.use('/api/auth', require('./routes/auth'));

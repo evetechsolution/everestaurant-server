@@ -56,7 +56,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/measurements/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Measure.remove({ _id: req.params.id });
+        const deletedData = await Measure.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

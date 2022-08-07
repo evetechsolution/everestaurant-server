@@ -1,12 +1,43 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const Product = require('../models/product');
+
+// Image Upload
+const imageStorage = multer.diskStorage({
+    destination: 'public/pictures/product', // Destination to store image 
+    filename: (req, file, cb) => {
+        cb(null, 'image-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const imageUpload = multer({
+    storage: imageStorage,
+    // limits: {
+    //     fileSize: 1000000   // 1000000 Bytes = 1 MB
+    // },
+    fileFilter(req, file, cb) {
+        if (!file.mimetype.startsWith('image')) {     // upload only png and jpg format
+            return cb(new Error('Please upload a Image'))
+        }
+        cb(undefined, true)
+    }
+})
+
+// For Single image upload
+router.post('/uploadImage', imageUpload.single('image'), (req, res) => {
+    res.send(req.file)
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/products/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Product.find().sort({"name": 1});
+        const listofData = await Product.find().sort({ "name": 1 });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
@@ -15,9 +46,18 @@ router.get('/', async (req, res) => {
 
 // CREATE NEW DATA
 // POST http://localhost:5000/api/products/create/
-router.post('/create', async (req, res) => {
+router.post('/create', imageUpload.single('image'), async (req, res) => {
     try {
-        const data = new Product(req.body);
+        let objData = req.body;
+
+        if (req.file) {
+            const objImage = {
+                image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
+            }
+            objData = Object.assign(req.body, objImage);
+        }
+
+        const data = new Product(objData);
         const newData = await data.save();
         res.json(newData);
     } catch (err) {
@@ -38,12 +78,31 @@ router.get('/:id', async (req, res) => {
 
 // UPDATE A SPECIFIC DATA
 // PATCH http://localhost:5000/api/products/:id
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', imageUpload.single('image'), async (req, res) => {
     try {
+        let objData = req.body;
+
+        if (req.file) {
+            // Chek product image & delete image
+            const productExist = await Product.findById(req.params.id);
+            if (productExist.image) {
+                const { pathname } = new URL(productExist.image);
+                if (fs.existsSync('./public' + pathname)) {
+                    fs.unlinkSync('./public' + pathname);
+                }
+            }
+
+            const objImage = {
+                image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
+            }
+            objData = Object.assign(req.body, objImage);
+        }
+
+
         const updatedData = await Product.updateOne(
             { _id: req.params.id },
             {
-                $set: req.body
+                $set: objData
             }
         );
         res.json(updatedData);
@@ -56,7 +115,16 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/products/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Product.remove({ _id: req.params.id });
+        // Chek product image & delete image
+        const productExist = await Product.findById(req.params.id);
+        if (productExist.image) {
+            const { pathname } = new URL(productExist.image);
+            if (fs.existsSync('./public' + pathname)) {
+                fs.unlinkSync('./public' + pathname);
+            }
+        }
+
+        const deletedData = await Product.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

@@ -84,7 +84,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/ingredients/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Ingredient.remove({ _id: req.params.id });
+        const deletedData = await Ingredient.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

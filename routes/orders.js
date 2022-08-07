@@ -130,7 +130,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/orders/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Order.remove({ _id: req.params.id });
+        const deletedData = await Order.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });
