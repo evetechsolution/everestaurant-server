@@ -12,6 +12,7 @@ router.post('/login', async (req, res) => {
         // Chek user
         const userExist = await User.findOne({ username: req.body.username });
         if (!userExist) return res.status(400).json({ message: 'User is not found' });
+        if (!userExist.isActive) return res.status(400).json({ message: 'User is not active' });
 
         const validPassword = await bcrypt.compareSync(req.body.password, userExist.password);
         if (!validPassword) return res.status(400).json({ message: 'Invalid password' });

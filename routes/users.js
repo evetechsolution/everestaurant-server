@@ -58,11 +58,30 @@ router.patch('/:id', async (req, res) => {
         const spesificData = await User.findById(req.params.id);
         const usernameExist = await User.findOne({ username: req.body.username });
         if (req.body.username !== spesificData.username && usernameExist) return res.json({ status: 400, message: 'Username already exist' });
-        
+
+        let objData = {
+            username: req.body.username,
+            fullname: req.body.fullname,
+            role: req.body.role,
+            isActive: req.body.isActive,
+        };
+
+        // let objData = data;
+
+        if (req.body.password) {
+            // Hash password
+            const salt = await bcrypt.genSaltSync(10);
+            const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
+            const objPassword = {
+                password: hashedPassword,
+            }
+            objData = Object.assign(objData, objPassword);
+        }
+
         const updatedData = await User.updateOne(
             { _id: req.params.id },
             {
-                $set: req.body
+                $set: objData
             }
         );
         res.json(updatedData);
