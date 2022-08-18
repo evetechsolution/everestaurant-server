@@ -6,7 +6,7 @@ const Category = require('../models/category');
 // GET http://localhost:5000/api/categories/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Category.find().sort({"listNumber": 1});
+        const listofData = await Category.find().sort({ "listNumber": 1 });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });

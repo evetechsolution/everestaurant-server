@@ -22,8 +22,10 @@ app.use('/api/qrdata', require('./routes/qrdatas'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/categories', require('./routes/categories'));
+app.use('/api/promotions', require('./routes/promotions'));
 app.use('/api/ingredients', require('./routes/ingredients'));
 app.use('/api/measurements', require('./routes/measurements'));
+app.use('/api/payments', require('./routes/payments'));
 
 app.get('/', (req, res) => {
     res.send('We are on home');
