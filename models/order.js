@@ -27,6 +27,9 @@ const DataSchema = mongoose.Schema({
     status: {
         type: String
     },
+    tax: {
+        type: Number
+    },
     billedAmount: {
         type: Number
     },
