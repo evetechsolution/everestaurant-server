@@ -99,6 +99,32 @@ router.post('/create', notifOrder, async (req, res) => {
     }
 });
 
+
+// get exist data for order by qr
+router.get('/exist/:id', async (req, res) => {
+    try {
+        const listofData = await Order.find({ qrKey: req.params.id, $or: [{ status: "Pending" }, { status: "pending" }] });
+        res.json(listofData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
+// update exist data for order by qr
+router.patch('/exist/:id', notifOrder, async (req, res) => {
+    try {
+        const updatedData = await Order.updateOne(
+            { _id: req.params.id },
+            {
+                $set: req.body
+            }
+        );
+        res.json(updatedData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
 // GET A SPECIFIC DATA
 // GET http://localhost:5000/api/orders/:id
 router.get('/:id', async (req, res) => {
