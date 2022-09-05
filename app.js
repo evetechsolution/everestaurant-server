@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const http = require("http");
+const { Server } = require("socket.io");
 require('dotenv/config');
 
 
@@ -26,6 +28,33 @@ app.use('/api/promotions', require('./routes/promotions'));
 app.use('/api/ingredients', require('./routes/ingredients'));
 app.use('/api/measurements', require('./routes/measurements'));
 app.use('/api/payments', require('./routes/payments'));
+app.use('/api/kitchens', require('./routes/kitchens'));
+app.use('/api/bars', require('./routes/bars'));
+
+const myServer = http.createServer(app);
+
+const io = new Server(myServer, {
+    cors: {
+        origin: ["http://localhost:3060", "http://localhost:300", "https://everestaurant.vercel.app", "https://everestaurant-clientorder.vercel.app"],
+    },
+});
+
+io.on("connection", (socket) => {
+    // console.log(`User Connected: ${socket.id}`);
+    // console.log("User connected.");
+
+    socket.on("sendKitchen", (data) => {
+        socket.broadcast.emit("receiveKitchen", data);
+    });
+
+    socket.on("sendBar", (data) => {
+        socket.broadcast.emit("receiveBar", data);
+    });
+
+    socket.on("disconnect", () => {
+    });
+
+});
 
 app.get('/', (req, res) => {
     res.send('We are on home');
@@ -38,6 +67,7 @@ try {
     console.log('Monggo DB Not Connected :' + error);
 }
 //How we start listening to the server
-app.listen(port, () => {
+// app.listen(port, () => {
+myServer.listen(port, () => {
     console.log('Listening to port 5000;')
 });
