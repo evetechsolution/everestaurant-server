@@ -35,7 +35,7 @@ const myServer = http.createServer(app);
 
 const io = new Server(myServer, {
     cors: {
-        origin: ["http://localhost:3060", "http://localhost:300", "https://everestaurant.vercel.app", "https://everestaurant-clientorder.vercel.app"],
+        origin: ["http://localhost:3060", "http://localhost:3000", "https://everestaurant.vercel.app", "https://everestaurant-clientorder.vercel.app"],
     },
 });
 
