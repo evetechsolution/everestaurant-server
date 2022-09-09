@@ -42,6 +42,9 @@ const DataSchema = mongoose.Schema({
     notes: {
         type: String
     },
+    image: {
+        type: String
+    }
 })
 
 //'Orders' is the table thats gonna show up in Mongo DB

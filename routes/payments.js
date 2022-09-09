@@ -14,7 +14,8 @@ router.post('/create', async (req, res) => {
         locale: "id",
         success_redirect_url: `https://everestaurant-clientorder.vercel.app/dine-in/${req.body.id}/success`,
         failure_redirect_url: `https://everestaurant-clientorder.vercel.app/dine-in/${req.body.id}/failed`,
-        items: req.body.orders
+        items: req.body.orders,
+        fees: req.body.optional
     };
 
     const headers = {
