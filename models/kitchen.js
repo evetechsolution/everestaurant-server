@@ -14,6 +14,9 @@ const DataSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    variant: {
+        type: Array
+    },
     step: {
         type: Number,
         required: true
