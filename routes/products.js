@@ -49,12 +49,17 @@ router.get('/', async (req, res) => {
 router.post('/create', imageUpload.single('image'), async (req, res) => {
     try {
         let objData = req.body;
+        
+        const objVariant = {
+            variant: JSON.parse(req.body.variantString)
+        }
+        objData = Object.assign(objData, objVariant);
 
         if (req.file) {
             const objImage = {
                 image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
             }
-            objData = Object.assign(req.body, objImage);
+            objData = Object.assign(objData, objImage);
         }
 
         const data = new Product(objData);
@@ -82,6 +87,11 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
     try {
         let objData = req.body;
 
+        const objVariant = {
+            variant: JSON.parse(req.body.variantString)
+        }
+        objData = Object.assign(objData, objVariant);
+
         if (req.file) {
             // Chek product image & delete image
             const productExist = await Product.findById(req.params.id);
@@ -101,7 +111,7 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
             const objImage = {
                 image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
             }
-            objData = Object.assign(req.body, objImage);
+            objData = Object.assign(objData, objImage);
         }
 
 

@@ -63,7 +63,7 @@ router.post('/create', imageUpload.single('image'), async (req, res) => {
             const objImage = {
                 image: req.protocol + "://" + req.get("host") + "/pictures/promotion/" + req.file.filename,
             }
-            objData = Object.assign(req.body, objImage);
+            objData = Object.assign(objData, objImage);
         }
 
         const data = new Promotion(objData);
@@ -110,7 +110,7 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
             const objImage = {
                 image: req.protocol + "://" + req.get("host") + "/pictures/promotion/" + req.file.filename,
             }
-            objData = Object.assign(req.body, objImage);
+            objData = Object.assign(objData, objImage);
         }
 
 
