@@ -51,6 +51,10 @@ io.on("connection", (socket) => {
     socket.on("sendBar", (data) => {
         socket.broadcast.emit("receiveBar", data);
     });
+    
+    socket.on("callWaiters", (data) => {
+        socket.broadcast.emit("receiveWaiters", data);
+    });
 
     socket.on("disconnect", () => {
     });
