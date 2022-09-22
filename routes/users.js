@@ -7,7 +7,7 @@ const User = require('../models/user');
 // GET http://localhost:5000/api/users/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await User.find().sort({ "name": 1 });
+        const listofData = await User.find().sort({ "fullname": 1 });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
