@@ -19,6 +19,9 @@ const DataSchema = mongoose.Schema({
     category: {
         type: String
     },
+    section: {
+        type: String
+    },
     description: {
         type: String
     },
