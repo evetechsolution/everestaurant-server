@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
 // GET http://localhost:5000/api/kitchens/:id
 router.get('/:id', async (req, res) => {
     try {
-        const spesificData = await Kitchen.findById(req.params.id);
+        const spesificData = await Kitchen.find({ id: req.params.id });
         res.json(spesificData);
     } catch (err) {
         res.json({ message: err });
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const updatedData = await Kitchen.updateOne(
-            { _id: req.params.id },
+            { id: req.params.id },
             {
                 $set: req.body
             }
@@ -56,7 +56,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/kitchens/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Kitchen.deleteOne({ _id: req.params.id });
+        const deletedData = await Kitchen.deleteOne({ id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });
