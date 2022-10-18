@@ -41,8 +41,6 @@ const io = new Server(myServer, {
 });
 
 io.on("connection", (socket) => {
-    // console.log(`User Connected: ${socket.id}`);
-    // console.log("User connected.");
 
     socket.on("sendKitchen", (data) => {
         socket.broadcast.emit("receiveKitchen", data);
