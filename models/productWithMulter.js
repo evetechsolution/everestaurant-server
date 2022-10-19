@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const Product = require('../models/product');
-const { cloudinary } = require('../lib/cloudinary');
 
-const imageStorage = multer.diskStorage({});
+// Image Upload
+const imageStorage = multer.diskStorage({
+    destination: 'public/pictures/product', // Destination to store image 
+    filename: (req, file, cb) => {
+        cb(null, 'image-' + Date.now() + path.extname(file.originalname));
+    }
+});
 
 const imageUpload = multer({
     storage: imageStorage,
@@ -35,17 +42,17 @@ router.get('/', async (req, res) => {
 router.post('/create', imageUpload.single('image'), async (req, res) => {
     try {
         let objData = req.body;
-
+        
         const objVariant = {
             variant: JSON.parse(req.body.variantString)
         }
         objData = Object.assign(objData, objVariant);
 
         if (req.file) {
-            const cloud = await cloudinary.uploader.upload(req.file.path, {
-                folder: "downtown-diner",
-            });
-            objData = Object.assign(objData, { image: cloud.secure_url, imageId: cloud.public_id });
+            const objImage = {
+                image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
+            }
+            objData = Object.assign(objData, objImage);
         }
 
         const data = new Product(objData);
@@ -81,14 +88,23 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
         if (req.file) {
             // Chek product image & delete image
             const productExist = await Product.findById(req.params.id);
-            if (productExist.imageId) {
-                await cloudinary.uploader.destroy(productExist.imageId);
+            if (productExist.image) {
+                try {
+                    const { pathname } = new URL(productExist.image);
+                    if (fs.existsSync('./public' + pathname)) {
+                        fs.unlinkSync('./public' + pathname);
+                    }
+                } catch (error) {
+                    if (fs.existsSync(productExist.image)) {
+                        fs.unlinkSync('./public' + pathname);
+                    }
+                }
             }
 
-            const cloud = await cloudinary.uploader.upload(req.file.path, {
-                folder: "downtown-diner",
-            });
-            objData = Object.assign(objData, { image: cloud.secure_url, imageId: cloud.public_id });
+            const objImage = {
+                image: req.protocol + "://" + req.get("host") + "/pictures/product/" + req.file.filename,
+            }
+            objData = Object.assign(objData, objImage);
         }
 
 
@@ -110,8 +126,17 @@ router.delete('/:id', async (req, res) => {
     try {
         // Chek product image & delete image
         const productExist = await Product.findById(req.params.id);
-        if (productExist.imageId) {
-            await cloudinary.uploader.destroy(productExist.imageId);
+        if (productExist.image) {
+            try {
+                const { pathname } = new URL(productExist.image);
+                if (fs.existsSync('./public' + pathname)) {
+                    fs.unlinkSync('./public' + pathname);
+                }
+            } catch (error) {
+                if (fs.existsSync(productExist.image)) {
+                    fs.unlinkSync('./public' + pathname);
+                }
+            }
         }
 
         const deletedData = await Product.deleteOne({ _id: req.params.id });
