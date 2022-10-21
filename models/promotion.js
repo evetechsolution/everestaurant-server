@@ -12,6 +12,9 @@ const DataSchema = mongoose.Schema({
     image: {
         type: String
     },
+    imageId: {
+        type: String
+    },
     price: {
         type: Number,
         required: true

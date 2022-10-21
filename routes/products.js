@@ -17,7 +17,7 @@ const imageUpload = multer({
         }
         cb(undefined, true)
     }
-})
+});
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/products/
