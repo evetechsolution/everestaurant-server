@@ -23,6 +23,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/qrdata', require('./routes/qrdatas'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/promotions', require('./routes/promotions'));
+app.use('/api/banner', require('./routes/banner'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/variants', require('./routes/variants'));
