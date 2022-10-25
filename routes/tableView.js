@@ -6,7 +6,7 @@ const Table = require('../models/tableview');
 // GET http://localhost:5000/api/table/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Table.find().sort({ "id": 1 });
+        const listofData = await Table.find();
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
