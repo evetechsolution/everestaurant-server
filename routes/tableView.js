@@ -3,7 +3,7 @@ const router = express.Router();
 const Table = require('../models/tableview');
 
 // GETTING ALL THE DATA
-// GET http://localhost:5000/api/table-view/
+// GET http://localhost:5000/api/table/
 router.get('/', async (req, res) => {
     try {
         const listofData = await Table.find().sort({ "id": 1 });
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE NEW DATA
-// POST http://localhost:5000/api/table-view/create
+// POST http://localhost:5000/api/table/create
 router.post('/create', async (req, res) => {
     try {
         const data = new Table(req.body);
@@ -26,7 +26,7 @@ router.post('/create', async (req, res) => {
 });
 
 // GET A SPECIFIC DATA
-// GET http://localhost:5000/api/table-view/:id
+// GET http://localhost:5000/api/table/:id
 router.get('/:id', async (req, res) => {
     try {
         const spesificData = await Table.findById(req.params.id);
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA
-// PATCH http://localhost:5000/api/table-view/:id
+// PATCH http://localhost:5000/api/table/:id
 router.patch('/:id', async (req, res) => {
     try {
         const updatedData = await Table.updateOne(
@@ -53,7 +53,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA BY NUMBER
-// PATCH http://localhost:5000/api/table-view/update/:id
+// PATCH http://localhost:5000/api/table/update/:id
 router.patch('/update/:id', async (req, res) => {
     try {
         const updatedData = await Table.updateOne(
@@ -69,7 +69,7 @@ router.patch('/update/:id', async (req, res) => {
 });
 
 // DELETE A SPECIFIC DATA
-// DELETE http://localhost:5000/api/table-view/:id
+// DELETE http://localhost:5000/api/table/:id
 router.delete('/:id', async (req, res) => {
     try {
         const deletedData = await Table.deleteOne({ _id: req.params.id });
