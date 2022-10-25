@@ -6,7 +6,7 @@ const Table = require('../models/tableview');
 // GET http://localhost:5000/api/table/
 router.get('/', async (req, res) => {
     try {
-        const listofData = await Table.find();
+        const listofData = await Table.find().sort({ "id": 1 });
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });
@@ -54,19 +54,19 @@ router.patch('/:id', async (req, res) => {
 
 // UPDATE A SPECIFIC DATA BY NUMBER
 // PATCH http://localhost:5000/api/table/update/:id
-router.patch('/update/:id', async (req, res) => {
-    try {
-        const updatedData = await Table.updateOne(
-            { number: req.params.id },
-            {
-                $set: req.body
-            }
-        );
-        res.json(updatedData);
-    } catch (err) {
-        res.json({ message: err });
-    }
-});
+// router.patch('/update/:id', async (req, res) => {
+//     try {
+//         const updatedData = await Table.updateOne(
+//             { number: req.params.id },
+//             {
+//                 $set: req.body
+//             }
+//         );
+//         res.json(updatedData);
+//     } catch (err) {
+//         res.json({ message: err });
+//     }
+// });
 
 // DELETE A SPECIFIC DATA
 // DELETE http://localhost:5000/api/table/:id
