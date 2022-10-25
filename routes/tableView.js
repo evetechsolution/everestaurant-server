@@ -53,7 +53,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // UPDATE A SPECIFIC DATA BY NUMBER
-// PATCH http://localhost:5000/api/table-view/:id
+// PATCH http://localhost:5000/api/table-view/update/:id
 router.patch('/update/:id', async (req, res) => {
     try {
         const updatedData = await Table.updateOne(
