@@ -32,6 +32,10 @@ const DataSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
+    extraNotes: {
+        type: Boolean,
+        default: false
+    },
     stock: {
         type: Number
     },
