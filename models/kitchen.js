@@ -26,7 +26,7 @@ const DataSchema = mongoose.Schema({
     },
     notes: {
         type: String
-    }
+    },
     step: {
         type: Number,
         required: true
