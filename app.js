@@ -33,6 +33,7 @@ app.use('/api/payments', require('./routes/payments'));
 app.use('/api/kitchens', require('./routes/kitchens'));
 app.use('/api/bars', require('./routes/bars'));
 app.use('/api/table-view', require('./routes/tableView'));
+app.use('/api/report', require('./routes/report'));
 
 const myServer = http.createServer(app);
 
