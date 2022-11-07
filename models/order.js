@@ -17,6 +17,13 @@ const DataSchema = mongoose.Schema({
     pax: {
         type: Number
     },
+    customer: {
+        name: String,
+        phone: String,
+        address: String,
+        addressNotes: String,
+        notes: String
+    },
     orders: {
         type: Array,
         required: true
@@ -30,7 +37,13 @@ const DataSchema = mongoose.Schema({
     tax: {
         type: Number
     },
+    deliveryPrice: {
+        type: Number
+    },
     billedAmount: {
+        type: Number
+    },
+    downPayment: {
         type: Number
     },
     payment: {
