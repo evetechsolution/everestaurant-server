@@ -34,6 +34,7 @@ app.use('/api/kitchens', require('./routes/kitchens'));
 app.use('/api/bars', require('./routes/bars'));
 app.use('/api/table-view', require('./routes/tableView'));
 app.use('/api/report', require('./routes/report'));
+app.use('/api/gmap', require('./routes/gmap'));
 
 const myServer = http.createServer(app);
 
@@ -47,6 +48,10 @@ io.on("connection", (socket) => {
     // console.log(`User Connected: ${socket.id}`);
     // console.log("User connected.");
 
+    socket.on("sendOrder", (data) => {
+        socket.broadcast.emit("receiveOrder", data);
+    });
+
     socket.on("sendKitchen", (data) => {
         socket.broadcast.emit("receiveKitchen", data);
     });
@@ -54,7 +59,7 @@ io.on("connection", (socket) => {
     socket.on("sendBar", (data) => {
         socket.broadcast.emit("receiveBar", data);
     });
-    
+
     socket.on("callWaiters", (data) => {
         socket.broadcast.emit("receiveWaiters", data);
     });

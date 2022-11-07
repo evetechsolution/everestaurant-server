@@ -21,7 +21,6 @@ const DataSchema = mongoose.Schema({
         name: String,
         phone: String,
         address: String,
-        addressNotes: String,
         notes: String
     },
     orders: {
