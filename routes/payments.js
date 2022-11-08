@@ -5,6 +5,10 @@ const axios = require('axios');
 // CREATE NEW INVOICE
 // POST http://localhost:5000/api/payments/create
 router.post('/create', async (req, res) => {
+    let url = `https://everestaurant-clientorder.vercel.app/dine-in/${req.body.id}`;
+    if (req.body.orderType === 'Delivery') {
+        url = `https://www.downtowndiner.id/delivery/${req.body.id}`;
+    }
     const reqBody = {
         external_id: req.body.id,
         amount: req.body.total,
@@ -12,8 +16,8 @@ router.post('/create', async (req, res) => {
         invoice_duration: 3600,
         currency: "IDR",
         locale: "id",
-        success_redirect_url: `https://everestaurant-clientorder.vercel.app/dine-in/${req.body.id}/success`,
-        failure_redirect_url: `https://everestaurant-clientorder.vercel.app/dine-in/${req.body.id}/failed`,
+        success_redirect_url: `${url}/success`,
+        failure_redirect_url: `${url}/failed`,
         items: req.body.orders,
         fees: req.body.optional
     };

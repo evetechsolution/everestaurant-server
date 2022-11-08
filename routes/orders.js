@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const QRCode = require('qrcode');
 const Order = require('../models/order');
-const notifOrder = require('./pusherOrder');
+// const notifOrder = require('./pusherOrder');
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/orders/
@@ -91,7 +91,8 @@ router.get('/saved-bill', async (req, res) => {
 
 // CREATE NEW DATA
 // POST http://localhost:5000/api/orders/create
-router.post('/create', notifOrder, async (req, res) => {
+// router.post('/create', notifOrder, async (req, res) => {
+router.post('/create', async (req, res) => {
     try {
         const generateId = mongoose.Types.ObjectId();
         const options = {
@@ -127,7 +128,8 @@ router.get('/exist/:id', async (req, res) => {
 });
 
 // update exist data for order by qr
-router.patch('/exist/:id', notifOrder, async (req, res) => {
+// router.patch('/exist/:id', notifOrder, async (req, res) => {
+router.patch('/exist/:id', async (req, res) => {
     try {
         const updatedData = await Order.updateOne(
             { _id: req.params.id },
