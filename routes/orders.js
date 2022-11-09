@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const QRCode = require('qrcode');
 const Order = require('../models/order');
 // const notifOrder = require('./pusherOrder');
@@ -94,15 +94,16 @@ router.get('/saved-bill', async (req, res) => {
 // router.post('/create', notifOrder, async (req, res) => {
 router.post('/create', async (req, res) => {
     try {
-        const generateId = mongoose.Types.ObjectId();
+        // const generateId = mongoose.Types.ObjectId();
         const options = {
             errorCorrectionLevel: 'H',
         };
-        QRCode.toDataURL(`${generateId}`, options, async function (err, url) {
+        // QRCode.toDataURL(`${generateId}`, options, async function (err, url) {
+        QRCode.toDataURL(`${req.body.id}`, options, async function (err, url) {
             if (err) return res.status(400).json(err);
 
             const objCustom = {
-                _id: generateId,
+                // _id: generateId,
                 image: url,
             }
             const objData = Object.assign(req.body, objCustom);
@@ -132,7 +133,7 @@ router.get('/exist/:id', async (req, res) => {
 router.patch('/exist/:id', async (req, res) => {
     try {
         const updatedData = await Order.updateOne(
-            { _id: req.params.id },
+            { id: req.params.id },
             {
                 $set: req.body
             }
@@ -147,7 +148,7 @@ router.patch('/exist/:id', async (req, res) => {
 // GET http://localhost:5000/api/orders/:id
 router.get('/:id', async (req, res) => {
     try {
-        const spesificData = await Order.findById(req.params.id);
+        const spesificData = await Order.find({ id: req.params.id });
         res.json(spesificData);
     } catch (err) {
         res.json({ message: err });
@@ -159,7 +160,7 @@ router.get('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const updatedData = await Order.updateOne(
-            { _id: req.params.id },
+            { id: req.params.id },
             {
                 $set: req.body
             }
@@ -174,7 +175,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/orders/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Order.deleteOne({ _id: req.params.id });
+        const deletedData = await Order.deleteOne({ id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });
