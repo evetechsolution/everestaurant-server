@@ -20,10 +20,13 @@ const DataSchema = mongoose.Schema({
     image: {
         type: String
     },
+    imageId: {
+        type: String
+    },
     status: {
         type: String
     },
-    
+
 });
 
 //'Qrdatas' is the table thats gonna show up in Mongo DB

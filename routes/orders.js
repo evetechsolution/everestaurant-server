@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const mongoose = require('mongoose');
-const QRCode = require('qrcode');
 const Order = require('../models/order');
 // const notifOrder = require('./pusherOrder');
 
@@ -94,24 +92,9 @@ router.get('/saved-bill', async (req, res) => {
 // router.post('/create', notifOrder, async (req, res) => {
 router.post('/create', async (req, res) => {
     try {
-        // const generateId = mongoose.Types.ObjectId();
-        const options = {
-            errorCorrectionLevel: 'H',
-        };
-        // QRCode.toDataURL(`${generateId}`, options, async function (err, url) {
-        QRCode.toDataURL(`${req.body.id}`, options, async function (err, url) {
-            if (err) return res.status(400).json(err);
-
-            const objCustom = {
-                // _id: generateId,
-                image: url,
-            }
-            const objData = Object.assign(req.body, objCustom);
-
-            const data = new Order(objData);
-            const newData = await data.save();
-            res.json(newData);
-        });
+        const data = new Order(req.body);
+        const newData = await data.save();
+        res.json(newData);
     } catch (err) {
         res.json({ message: err });
     }

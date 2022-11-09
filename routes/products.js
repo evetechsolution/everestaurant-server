@@ -108,7 +108,7 @@ router.patch('/:id', imageUpload.single('image'), async (req, res) => {
 // DELETE http://localhost:5000/api/products/:id
 router.delete('/:id', async (req, res) => {
     try {
-        // Chek product image & delete image
+        // Check product image & delete image
         const productExist = await Product.findById(req.params.id);
         if (productExist.imageId) {
             await cloudinary.uploader.destroy(productExist.imageId);

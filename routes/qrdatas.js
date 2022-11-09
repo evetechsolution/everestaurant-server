@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const QRCode = require('qrcode');
 const Qrdata = require('../models/qrdata');
+const { cloudinary } = require('../lib/cloudinary');
 
 // GETTING ALL THE DATA
 // GET http://localhost:5000/api/qrdata/
@@ -33,10 +34,11 @@ router.post('/create', async (req, res) => {
         QRCode.toDataURL(`${process.env.QRORDER_URL}/${req.body.qrKey}`, options, async function (err, url) {
             if (err) return res.status(400).json(err);
 
-            const objImage = {
-                image: url,
-            }
-            const objData = Object.assign(req.body, objImage);
+            const cloud = await cloudinary.uploader.upload(url, {
+                folder: "downtown-diner-qr",
+            });
+
+            const objData = Object.assign(req.body, { image: cloud.secure_url, imageId: cloud.public_id });
 
             const data = new Qrdata(objData);
             const newData = await data.save();
@@ -78,6 +80,12 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/qrdata/:id
 router.delete('/:id', async (req, res) => {
     try {
+        // Check image & delete image
+        const exist = await Qrdata.findById(req.params.id);
+        if (exist.imageId) {
+            await cloudinary.uploader.destroy(exist.imageId);
+        }
+
         const deletedData = await Qrdata.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {

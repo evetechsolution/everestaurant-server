@@ -56,9 +56,6 @@ const DataSchema = mongoose.Schema({
     },
     notes: {
         type: String
-    },
-    image: {
-        type: String
     }
 })
 
