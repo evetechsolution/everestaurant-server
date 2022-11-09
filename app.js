@@ -45,7 +45,7 @@ const io = new Server(myServer, {
             "http://localhost:3000",
             "https://everestaurant.vercel.app",
             "https://everestaurant-clientorder.vercel.app",
-            "https://www.downtowndiner.id/",
+            "https://www.downtowndiner.id",
         ],
     },
 });
