@@ -9,10 +9,6 @@ const DataSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    id: {
-        type: String,
-        required: true
-    },
     tableName: {
         type: String,
         required: true
