@@ -116,7 +116,7 @@ router.get('/exist/:id', async (req, res) => {
 router.patch('/exist/:id', async (req, res) => {
     try {
         const updatedData = await Order.updateOne(
-            { id: req.params.id },
+            { _id: req.params.id },
             {
                 $set: req.body
             }
@@ -131,7 +131,7 @@ router.patch('/exist/:id', async (req, res) => {
 // GET http://localhost:5000/api/orders/:id
 router.get('/:id', async (req, res) => {
     try {
-        const spesificData = await Order.find({ id: req.params.id });
+        const spesificData = await Order.findById(req.params.id);
         res.json(spesificData);
     } catch (err) {
         res.json({ message: err });
@@ -143,7 +143,7 @@ router.get('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const updatedData = await Order.updateOne(
-            { id: req.params.id },
+            { _id: req.params.id },
             {
                 $set: req.body
             }
@@ -158,7 +158,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE http://localhost:5000/api/orders/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedData = await Order.deleteOne({ id: req.params.id });
+        const deletedData = await Order.deleteOne({ _id: req.params.id });
         res.json(deletedData);
     } catch (err) {
         res.json({ message: err });

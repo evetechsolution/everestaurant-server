@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 const DataSchema = mongoose.Schema({
-    id: {
-        type: String
-    },
     date: {
         type: Date,
         default: Date.now
