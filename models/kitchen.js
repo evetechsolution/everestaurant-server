@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 
 const DataSchema = mongoose.Schema({
+    _id: {
+        type: String
+    },
     date: {
         type: Date,
         default: Date.now
