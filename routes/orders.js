@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/order');
+const paginate = require('mongoose-paginate-v2');
 // const notifOrder = require('./pusherOrder');
 
 // GETTING ALL THE DATA
@@ -8,6 +9,31 @@ const Order = require('../models/order');
 router.get('/', async (req, res) => {
     try {
         const listofData = await Order.find();
+        res.json(listofData);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
+// GETTING ALL THE DATA PAGINATE
+// GET http://localhost:5000/api/orders/paginate
+router.get('/paginate', async (req, res) => {
+    try {
+        const { page, perPage, search } = req.query;
+        let query = {};
+        if (search) {
+            query = {
+                ...query,
+                // _id: { $regex: search, $options: 'i' },  // option i for case insensitivity to match upper and lower cases.
+                $or: [ { '_id': { $regex: search, $options: 'i' } }, { 'tableName': { $regex: search, $options: 'i' } } ],  // option i for case insensitivity to match upper and lower cases.
+            };
+        };
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(perPage, 10) || 5,
+            sort: { date: -1 },
+        }
+        const listofData = await Order.paginate(query, options);
         res.json(listofData);
     } catch (err) {
         res.json({ message: err });

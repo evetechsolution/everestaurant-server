@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const DataSchema = mongoose.Schema({
     _id: {
@@ -57,7 +58,9 @@ const DataSchema = mongoose.Schema({
     notes: {
         type: String
     }
-})
+});
+
+DataSchema.plugin(mongoosePaginate);
 
 //'Orders' is the table thats gonna show up in Mongo DB
 module.exports = mongoose.model('Orders', DataSchema);
