@@ -60,7 +60,7 @@ const DataSchema = mongoose.Schema({
     }
 });
 
-// DataSchema.plugin(mongoosePaginate);
+DataSchema.plugin(mongoosePaginate);
 
 //'Orders' is the table thats gonna show up in Mongo DB
 module.exports = mongoose.model('Orders', DataSchema);
